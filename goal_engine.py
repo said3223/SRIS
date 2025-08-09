@@ -19,7 +19,10 @@ def form_goal(
     query_type = perception_struct.get("query_type", "other_unclassified")
     if not isinstance(query_type, str): query_type = "other_unclassified" # Доп. проверка
 
-    primary_intent = perception_struct.get("primary_intent", "N/A")
+    user_profile = perception_struct.get("user_profile", {})
+    if not isinstance(user_profile, dict):
+        user_profile = {}
+    primary_intent = user_profile.get("primary_intent", "N/A")
     core_task = perception_struct.get("core_task", {})
     if not isinstance(core_task, dict): core_task = {}
 
