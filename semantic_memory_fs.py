@@ -48,8 +48,15 @@ def save_chain_to_fs(chain_data: Dict[str, Any], sub_directory: Optional[str] = 
 
         # Use timezone-aware datetime object for UTC for 'created_at' if not present or to standardize
         # If 'timestamp' is used by the kernel, ensure it's also standardized or add 'created_at'
-        if "timestamp" not in chain_data or not isinstance(datetime.fromisoformat(chain_data["timestamp"].replace("Z", "+00:00")), datetime):
-             chain_data["timestamp_fs_utc"] = datetime.now(timezone.utc).isoformat() # Add a dedicated FS timestamp
+        timestamp = chain_data.get("timestamp")
+        if timestamp is not None:
+            try:
+                datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+            except ValueError:
+                # Protect against malformed timestamps from external sources
+                chain_data["timestamp_fs_utc"] = datetime.now(timezone.utc).isoformat()
+        else:
+            chain_data["timestamp_fs_utc"] = datetime.now(timezone.utc).isoformat()  # Add a dedicated FS timestamp
         
         # Determine save directory
         current_save_dir = SMFS_BASE_DIR
