@@ -1,0 +1,11 @@
+fastapi
+pydantic
+requests
+llama-index
+llama-cpp-python
+transformers
+torch
+
+# Optional GPU-related extras for 4-bit quantization
+bitsandbytes
+accelerate
