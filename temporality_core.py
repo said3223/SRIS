@@ -5,8 +5,6 @@ from datetime import datetime, timezone # <--- ВОТ ЭТА СТРОКА ДОБ
 
 # Настройка логгера для этого модуля
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    pass # Предполагаем, что логирование настроено в sris_kernel.py
 
 class TimeSense:
     # ... (остальной код класса TimeSense без изменений) ...

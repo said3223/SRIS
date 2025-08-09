@@ -17,13 +17,8 @@ except OSError as e:
     # Depending on the application's criticality, you might raise the exception
     # or have a fallback mechanism. For now, we'll just log.
 
-# Setup basic logging. In a larger application, logging would be configured globally.
-# Set a more informative format.
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__) # Use __name__ for logger hierarchy
+# Logging configured at application startup
+logger = logging.getLogger(__name__)
 
 # --- Functions ---
 def save_chain_to_fs(chain_data: Dict[str, Any], sub_directory: Optional[str] = None) -> Optional[str]:
