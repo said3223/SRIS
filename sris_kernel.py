@@ -1,5 +1,10 @@
 # sris_kernel.py — Integrated Reasoning Kernel SRIS 1.0 (with Temporality Core & Full GUI code)
 
+import logging
+from utils import setup_logging
+
+setup_logging()
+
 # Стандартные импорты SRIS
 from perception_analysis import analyze_perception
 from sensorium_core import integrate_sensorium
@@ -59,8 +64,6 @@ except ImportError:
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
 
 # --- Константы и глобальные переменные SRIS ---
 DEFAULT_SDNA = {"adaptivity":0.7,"ethics_sensitivity":0.8,"thinking_style":"deductive","curiosity_level":0.6,"security_priority":0.4,"risk_aversion":0.5,"empathy_level":0.5,"novelty_seeking":0.6,"risk_taking":0.5,"proactiveness":0.5,"efficiency_preference":0.5,"ethical_risk_aversion":0.5,"assertiveness_level":0.5,"transparency_level":0.5}

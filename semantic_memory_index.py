@@ -64,8 +64,6 @@ CORE_SRIS_KNOWLEDGE = [
 ]
 
 logger = logging.getLogger(__name__)
-if not logger.handlers: 
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 try:
     Settings.llm = Ollama(model=OLLAMA_LLM_MODEL_NAME, base_url=OLLAMA_LLM_BASE_URL)
@@ -279,6 +277,8 @@ def query_semantic_memory(index: VectorStoreIndex, query_text: str, similarity_t
 
 # --- Пример использования и тестирования модуля ---
 if __name__ == "__main__":
+    from utils import setup_logging
+    setup_logging()
     logger.info("--- Тестирование модуля semantic_memory_index.py с интеграцией Wikidata и Core Knowledge ---")
     
     FORCE_REBUILD_NOW = True 

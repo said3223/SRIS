@@ -1,10 +1,13 @@
 # sris_server.py
 import logging
+from utils import setup_logging
 import time
 from fastapi import FastAPI, HTTPException
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
 from typing import Dict, Any, Optional
+
+setup_logging()
 
 # --- Импорт основных компонентов SRIS ---
 # Убедись, что все эти файлы находятся в той же директории или доступны
@@ -17,14 +20,11 @@ try:
     )
     sris_components_loaded = True
 except ImportError as e:
-    logging.basicConfig(level=logging.ERROR)
     logging.error(f"Критическая ошибка: не удалось импортировать компоненты SRIS. {e}")
     sris_components_loaded = False
 
 # --- Настройка логирования ---
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # --- Модели данных для API ---
 class QueryRequest(BaseModel):

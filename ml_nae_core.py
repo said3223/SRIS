@@ -13,9 +13,6 @@ import math # Для sigmoid или других функций нормализ
 
 # --- Настройка логгера ---
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # --- 1. Спецификация интерфейсов и структур данных ---
 
@@ -460,6 +457,8 @@ class SRISNeuroActionEngine:
 
 # --- Пример Моков и Запуска (для иллюстрации) ---
 if __name__ == "__main__":
+    from utils import setup_logging
+    setup_logging()
     # === Mockups ===
     def mock_execute_llm_query_for_sre(prompt: str, mode: str, max_tokens: int, temperature: float) -> str:
         logger.info(f"MOCK SRE LLM Query (mode: {mode}): Промпт получен, начинается с: '{prompt[:150]}...'")

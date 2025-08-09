@@ -4,6 +4,21 @@ import json
 import re
 from typing import Dict, Any, Optional, Union
 
+DEFAULT_LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+def setup_logging(level: int = logging.INFO, fmt: str = DEFAULT_LOG_FORMAT) -> None:
+    """Configure root logging for the application.
+
+    This should be called once at application startup.
+    If handlers already exist, only the level will be updated.
+    """
+    root_logger = logging.getLogger()
+    if not root_logger.handlers:
+        logging.basicConfig(level=level, format=fmt)
+    else:
+        root_logger.setLevel(level)
+    logging.getLogger(__name__).debug("Logging configured")
+
 try:
     from mistral_core import query_mistral
     mistral_core_available = True

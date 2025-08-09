@@ -29,8 +29,6 @@ HF_MODEL_NAME: str = "mistralai/Mistral-7B-Instruct-v0.2"
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # --- Инициализация модели ---
 llm_instance = None
@@ -129,6 +127,8 @@ def query_mistral(
 
 
 if __name__ == '__main__':
+    from utils import setup_logging
+    setup_logging()
     logger.info("--- Тестирование mistral_core.py ---")
     model_ready = False
     if USE_LLAMA_CPP:
