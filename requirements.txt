@@ -1,0 +1,9 @@
+llama-cpp-python
+llama-index
+fastapi
+uvicorn
+requests
+sentence-transformers
+pydantic
+transformers
+torch
