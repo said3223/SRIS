@@ -102,3 +102,7 @@ async def process_user_query(request: QueryRequest):
 @app.get("/")
 def read_root():
     return {"SRIS_Status": "Alive", "Core_Version": "1.0-Prometheus", "Docs": "/docs"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("sris_server:app", host="0.0.0.0", port=8000)
