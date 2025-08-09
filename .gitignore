@@ -1,0 +1,31 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.so
+*.dylib
+.Python
+
+# Test artifacts
+.pytest_cache/
+
+# Virtual environments
+env/
+venv/
+ENV/
+.venv/
+
+# Compiled or downloaded models
+models/
+*.gguf
+*.bin
+*.ckpt
+*.pt
+*.pth
+
+# Logs
+*.log
+
+# Index and temporary storage
+semantic_memory_storage/
+_llama_index_storage/
+*/_llama_index_storage/
