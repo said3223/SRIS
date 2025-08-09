@@ -1,0 +1,7 @@
+fastapi~=0.116
+pydantic~=2.11
+llama-index~=0.12
+llama-cpp-python~=0.3
+transformers~=4.53
+requests~=2.32
+torch~=2.7
