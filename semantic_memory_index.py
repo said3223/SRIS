@@ -2,6 +2,8 @@
 import os
 import json
 import logging
+
+from logging_config import setup_logging
 from typing import List, Dict, Any, Optional, Set
 import uuid
 
@@ -63,9 +65,8 @@ CORE_SRIS_KNOWLEDGE = [
     }
 ]
 
+setup_logging()
 logger = logging.getLogger(__name__)
-if not logger.handlers: 
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 try:
     Settings.llm = Ollama(model=OLLAMA_LLM_MODEL_NAME, base_url=OLLAMA_LLM_BASE_URL)

@@ -1,5 +1,7 @@
 # ml_nae_core.py
 import logging
+
+from logging_config import setup_logging
 from typing import Dict, Any, List, Optional, TypedDict, Callable
 import math # Для sigmoid или других функций нормализации, если понадобятся
 
@@ -12,10 +14,8 @@ import math # Для sigmoid или других функций нормализ
 # from sris_constants import ZAV2_CRITICAL_VIOLATION_FLAG # Пример флага
 
 # --- Настройка логгера ---
+setup_logging()
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # --- 1. Спецификация интерфейсов и структур данных ---
 
@@ -527,16 +527,16 @@ Estimated Risk Level: low
     # === Test Run 1: Normal situation ===
     logger.info("\n--- ML-NAE Test 1: Нормальная ситуация (озадаченный пользователь) ---")
     action1 = ml_nae.decide(example_context_ru)
-    print(f"ML-NAE Решение 1: {action1}")
+    logger.info(f"ML-NAE Решение 1: {action1}")
 
     # === Test Run 2: Critical Threat ===
     logger.info("\n--- ML-NAE Test 2: Критическая угроза (ожидаем рефлекс) ---")
     action2 = ml_nae.decide(example_context_critical_threat)
-    print(f"ML-NAE Решение 2: {action2}")
+    logger.info(f"ML-NAE Решение 2: {action2}")
     
     # === Test Run 3: ZAV2 flag ===
     example_context_zav2_violation = example_context_ru.copy() # Копируем нормальный контекст
     example_context_zav2_violation["system_flags"] = {"zav2_violation_imminent": True}
     logger.info("\n--- ML-NAE Test 3: Флаг нарушения ZAV2 (ожидаем рефлекс) ---")
     action3 = ml_nae.decide(example_context_zav2_violation)
-    print(f"ML-NAE Решение 3: {action3}")
+    logger.info(f"ML-NAE Решение 3: {action3}")

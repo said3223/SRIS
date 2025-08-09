@@ -1,5 +1,12 @@
 # adaptive_logic.py
 
+import logging
+
+from logging_config import setup_logging
+
+setup_logging()
+logger = logging.getLogger(__name__)
+
 # Conceptual Imports: These would be calls to SRIS's core semantic processing.
 # In a real system, this might involve semantic embeddings, knowledge graphs, etc.
 # from semantic_core_utilities import get_semantic_similarity, get_concept_category, filter_by_semantic_relevance
@@ -90,24 +97,24 @@ if __name__ == "__main__":
         "Wait for further instructions."
     ]
 
-    print("--- Analytical Mode (deep_scan) ---")
-    print(f"Original: {sample_hypotheses}")
-    print(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'analytical_deep_scan')}\n")
+    logger.info("--- Analytical Mode (deep_scan) ---")
+    logger.info(f"Original: {sample_hypotheses}")
+    logger.info(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'analytical_deep_scan')}\n")
 
-    print("--- Threat Response Mode (urgent) ---")
-    print(f"Original: {sample_hypotheses}")
-    print(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'threat_response_urgent')}\n")
+    logger.info("--- Threat Response Mode (urgent) ---")
+    logger.info(f"Original: {sample_hypotheses}")
+    logger.info(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'threat_response_urgent')}\n")
 
-    print("--- Creative Mode (dream_cycle) ---")
-    print(f"Original: {sample_hypotheses}")
-    print(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'creative_dream_cycle')}\n")
+    logger.info("--- Creative Mode (dream_cycle) ---")
+    logger.info(f"Original: {sample_hypotheses}")
+    logger.info(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'creative_dream_cycle')}\n")
 
-    print("--- Default Mode with high threat perception ---")
+    logger.info("--- Default Mode with high threat perception ---")
     perception_with_threat = {'threat_level': 0.8, 'summary': 'Hostile entity detected'}
-    print(f"Original: {sample_hypotheses}")
-    print(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'default_mode', perception_with_threat)}\n")
+    logger.info(f"Original: {sample_hypotheses}")
+    logger.info(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'default_mode', perception_with_threat)}\n")
 
-    print("--- Exploratory Mode with high novelty perception ---")
+    logger.info("--- Exploratory Mode with high novelty perception ---")
     perception_with_novelty = {'novelty': 0.9, 'summary': 'Unidentified anomaly detected'}
-    print(f"Original: {sample_hypotheses}")
-    print(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'exploratory_discovery', perception_with_novelty)}\n")
+    logger.info(f"Original: {sample_hypotheses}")
+    logger.info(f"Adjusted: {adjust_hypotheses(sample_hypotheses, 'exploratory_discovery', perception_with_novelty)}\n")

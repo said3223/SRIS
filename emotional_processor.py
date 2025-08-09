@@ -1,5 +1,11 @@
 # emotional_processor.py
+import logging
 from typing import Dict, Any
+
+from logging_config import setup_logging
+
+setup_logging()
+logger = logging.getLogger(__name__)
 
 def evaluate_emotion(perception_struct: Dict[str, Any], chosen_hypothesis: str) -> Dict[str, Any]:
     """
@@ -18,9 +24,9 @@ def evaluate_emotion(perception_struct: Dict[str, Any], chosen_hypothesis: str) 
                  Valence: positive/negative (-1.0 to 1.0)
                  Arousal: intensity/energy (0.0 to 1.0)
     """
-    print(f"\n[EMOTIONAL PROCESSOR INPUT]")
-    print(f"Perception Sentiment: {perception_struct.get('sentiment', 'unknown')}")
-    print(f"Chosen Hypothesis: {chosen_hypothesis[:100]}...") # Print part for brevity
+    logger.info("\n[EMOTIONAL PROCESSOR INPUT]")
+    logger.info(f"Perception Sentiment: {perception_struct.get('sentiment', 'unknown')}")
+    logger.info(f"Chosen Hypothesis: {chosen_hypothesis[:100]}...")
 
     valence = 0.0  # Default to neutral
     arousal = 0.1  # Default to low arousal
@@ -70,7 +76,7 @@ def evaluate_emotion(perception_struct: Dict[str, Any], chosen_hypothesis: str) 
         "details": f"Based on sentiment: {perception_sentiment} and hypothesis content."
     }
 
-    print(f"Evaluated Emotion State: {emotion_state}")
+    logger.info(f"Evaluated Emotion State: {emotion_state}")
     return emotion_state
 
 # Example usage (can be uncommented for quick testing of this module)

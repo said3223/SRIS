@@ -172,15 +172,15 @@ if __name__ == "__main__":
     sys.modules['cause_effect'] = MockCauseEffect()
 
 
-    print("--- Running Dream Cycle with context ---")
+    logger.info("--- Running Dream Cycle with context ---")
     dream_log = run_dream_cycle(
         current_sDNA=mock_sDNA,
         current_goals=mock_goals,
         recent_memory_patterns=mock_recent_memory
     )
     for entry in dream_log:
-        print(f"[{entry['timestamp']}] Idea: '{entry['dream_seed_idea']}' -> Simulated Hypothesis: '{entry['simulated_hypothesis']}' (Score: {entry['score_simulated']}) | Affect: {entry['simulated_emotional_label']}")
+        logger.info(f"[{entry['timestamp']}] Idea: '{entry['dream_seed_idea']}' -> Simulated Hypothesis: '{entry['simulated_hypothesis']}' (Score: {entry['score_simulated']}) | Affect: {entry['simulated_emotional_label']}")
         if entry.get('simulated_zav2_violations'):
-            print(f"  Simulated ZAV2 Violations: {entry['simulated_zav2_violations']}")
+            logger.info(f"  Simulated ZAV2 Violations: {entry['simulated_zav2_violations']}")
         if entry.get('simulated_effects'):
-            print(f"  Simulated Effects: {entry['simulated_effects'][0]['concept']} (Valence: {entry['simulated_effects'][0]['valence_impact']})")
+            logger.info(f"  Simulated Effects: {entry['simulated_effects'][0]['concept']} (Valence: {entry['simulated_effects'][0]['valence_impact']})")
