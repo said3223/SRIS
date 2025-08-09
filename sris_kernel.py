@@ -28,6 +28,8 @@ from typing import Dict, Any, Optional, List
 import json
 import random
 import logging
+
+from logging_config import setup_logging
 import time
 
 # ---- GUI Imports ----
@@ -58,9 +60,8 @@ except ImportError:
     sris_timeline = ReasoningTimeline(sris_timesense) # type: ignore
 
 # Настройка логирования
+setup_logging()
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
 
 # --- Константы и глобальные переменные SRIS ---
 DEFAULT_SDNA = {"adaptivity":0.7,"ethics_sensitivity":0.8,"thinking_style":"deductive","curiosity_level":0.6,"security_priority":0.4,"risk_aversion":0.5,"empathy_level":0.5,"novelty_seeking":0.6,"risk_taking":0.5,"proactiveness":0.5,"efficiency_preference":0.5,"ethical_risk_aversion":0.5,"assertiveness_level":0.5,"transparency_level":0.5}
@@ -409,10 +410,10 @@ class SRISChatApp:
         thread.start()
 
 if __name__ == "__main__":
-    print("--- SRIS Kernel с GUI ---")
-    print("--- Логи работы ядра будут выводиться в терминале. ---")
-    print("--- Закройте окно GUI для завершения программы. ---")
+    logger.info("--- SRIS Kernel с GUI ---")
+    logger.info("--- Логи работы ядра будут выводиться в терминале. ---")
+    logger.info("--- Закройте окно GUI для завершения программы. ---")
     main_window = tk.Tk()
     app = SRISChatApp(main_window)
     main_window.mainloop()
-    print("\n--- Программа SRIS завершена ---")
+    logger.info("\n--- Программа SRIS завершена ---")

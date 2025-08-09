@@ -1,5 +1,7 @@
 # interactive_knowledge_importer.py
 import logging
+
+from logging_config import setup_logging
 from typing import List, Dict, Any
 
 # Предполагаем, что эти модули находятся в том же каталоге или доступны
@@ -12,20 +14,14 @@ try:
     from llama_index.core import Document
     modules_loaded = True
 except ImportError as e:
-    logging.basicConfig(level=logging.ERROR) # Установим базовый логгер, если другие не сработали
+    setup_logging(logging.ERROR)
     logging.error(f"Ошибка импорта необходимых модулей: {e}")
     logging.error("Пожалуйста, убедитесь, что wikidata_client.py и semantic_memory_index.py находятся в той же директории или доступны через PYTHONPATH.")
     modules_loaded = False
 
 # Настройка логгера для этого скрипта
+setup_logging()
 logger = logging.getLogger(__name__)
-if not logger.handlers and modules_loaded: # Настраиваем, только если основные модули загрузились
-    # Используем существующую конфигурацию логирования, если она была установлена другими модулями,
-    # или устанавливаем свою, если это первый запуск.
-    # Для простоты, предполагаем, что logging.basicConfig уже был вызван в одном из импортируемых модулей.
-    # Если нет, можно добавить здесь:
-    # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    pass
 
 
 def run_interactive_importer():
@@ -44,7 +40,7 @@ def run_interactive_importer():
     logger.info("Семантический индекс готов к работе.")
 
     while True:
-        print("\nВведите термин для поиска в Wikidata (или 'выход' для завершения):")
+        logger.info("\nВведите термин для поиска в Wikidata (или 'выход' для завершения):")
         search_term = input("> ").strip()
 
         if not search_term:
@@ -67,13 +63,13 @@ def run_interactive_importer():
         found_entities = search_wikidata_entities_by_label(search_term, lang=lang, limit=limit)
 
         if not found_entities:
-            print(f"По термину '{search_term}' ничего не найдено. Попробуйте другой запрос.")
+            logger.info(f"По термину '{search_term}' ничего не найдено. Попробуйте другой запрос.")
             continue
 
-        print("\nНайденные сущности:")
+        logger.info("\nНайденные сущности:")
         for i, entity in enumerate(found_entities):
-            print(f"  {i+1}. {entity.get('label', 'N/A')} (QID: {entity.get('qid', 'N/A')})")
-            print(f"      Описание: {entity.get('description', 'Нет описания')}")
+            logger.info(f"  {i+1}. {entity.get('label', 'N/A')} (QID: {entity.get('qid', 'N/A')})")
+            logger.info(f"      Описание: {entity.get('description', 'Нет описания')}")
         
         while True:
             try:
@@ -82,9 +78,9 @@ def run_interactive_importer():
                 if 0 <= choice <= len(found_entities):
                     break
                 else:
-                    print(f"Неверный номер. Пожалуйста, введите число от 0 до {len(found_entities)}.")
+                    logger.warning(f"Неверный номер. Пожалуйста, введите число от 0 до {len(found_entities)}.")
             except ValueError:
-                print("Пожалуйста, введите число.")
+                logger.warning("Пожалуйста, введите число.")
 
         if choice == 0:
             continue
@@ -144,9 +140,9 @@ def run_interactive_importer():
             logger.info(f"Добавление {len(new_docs_for_index)} документов в семантический индекс...")
             success = add_documents_to_sris_index(new_docs_for_index)
             if success:
-                print(f"Информация о '{selected_label}' (QID: {selected_qid}) успешно добавлена в семантическую память SRIS.")
+                logger.info(f"Информация о '{selected_label}' (QID: {selected_qid}) успешно добавлена в семантическую память SRIS.")
             else:
-                print(f"Ошибка при добавлении информации о '{selected_label}' в память.")
+                logger.warning(f"Ошибка при добавлении информации о '{selected_label}' в память.")
         else:
             logger.warning(f"Не удалось подготовить документы для индексации для QID {selected_qid}.")
 

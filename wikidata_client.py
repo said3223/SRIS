@@ -2,13 +2,13 @@
 import requests
 import json
 import logging
+
+from logging_config import setup_logging
 from typing import List, Dict, Optional, Any # Добавил Any
 
 # Настройка логгера
+setup_logging()
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 WIKIDATA_SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
 WIKIDATA_API_ENDPOINT = "https://www.wikidata.org/w/api.php" # Эндпоинт для wbsearchentities
@@ -143,7 +143,7 @@ def format_wikidata_entity_data(qid: str, sparql_results: List[Dict[str, str]]) 
 
 # ===== БЛОК ДЛЯ ТЕСТА =====
 if __name__ == "__main__":
-    print("--- Начинаем тест запроса и форматирования данных из Wikidata ---")
+    logger.info("--- Начинаем тест запроса и форматирования данных из Wikidata ---")
 
     # --- Тест 1: Извлечение и форматирование данных для известного QID ---
     qid_to_test = "Q11660" # Искусственный интеллект
@@ -167,42 +167,42 @@ if __name__ == "__main__":
     """
     actual_query = sparql_template.replace("{QID_PLACEHOLDER}", qid_to_test)
     
-    print(f"\nВыполняем SPARQL-запрос для QID: {qid_to_test}...")
+    logger.info(f"\nВыполняем SPARQL-запрос для QID: {qid_to_test}...")
     results = query_wikidata(actual_query)
 
     if results:
-        print(f"Получено сырых результатов из Wikidata: {len(results)}")
-        print(f"\n--- Форматирование данных для QID: {qid_to_test} ---")
+        logger.info(f"Получено сырых результатов из Wikidata: {len(results)}")
+        logger.info(f"\n--- Форматирование данных для QID: {qid_to_test} ---")
         formatted_texts = format_wikidata_entity_data(qid_to_test, results)
         if formatted_texts:
             for lang_code, text_blob in formatted_texts.items():
-                print(f"\n--- Готовый текст для индексации ({lang_code.upper()}) ---")
-                print(text_blob)
+                logger.info(f"\n--- Готовый текст для индексации ({lang_code.upper()}) ---")
+                logger.info(text_blob)
         else:
-            print("Не удалось сформировать текст из результатов.")
+            logger.warning("Не удалось сформировать текст из результатов.")
     elif isinstance(results, list) and not results: 
-        print(f"Для QID {qid_to_test} не найдено результатов, соответствующих запросу, или произошла ошибка (см. логи выше).")
+        logger.warning(f"Для QID {qid_to_test} не найдено результатов, соответствующих запросу, или произошла ошибка (см. логи выше).")
     
-    print("\n--- Тест 1 завершен ---")
+    logger.info("\n--- Тест 1 завершен ---")
 
     # --- Тест 2: Поиск сущностей по названию с помощью новой функции ---
-    print("\n--- Тест 2: Поиск сущностей по названию ---")
+    logger.info("\n--- Тест 2: Поиск сущностей по названию ---")
     search_term_ru = "Машинное обучение"
-    print(f"\nИщем сущности для: '{search_term_ru}' (язык: ru)")
+    logger.info(f"\nИщем сущности для: '{search_term_ru}' (язык: ru)")
     found_entities_ru = search_wikidata_entities_by_label(search_term_ru, lang="ru", limit=3)
     if found_entities_ru:
         for entity in found_entities_ru:
-            print(f"  QID: {entity.get('qid')}, Метка: {entity.get('label')}, Описание: {entity.get('description')}")
+            logger.info(f"  QID: {entity.get('qid')}, Метка: {entity.get('label')}, Описание: {entity.get('description')}")
     else:
-        print("  Сущности не найдены.")
+        logger.info("  Сущности не найдены.")
 
     search_term_en = "Python programming language"
-    print(f"\nИщем сущности для: '{search_term_en}' (язык: en)")
+    logger.info(f"\nИщем сущности для: '{search_term_en}' (язык: en)")
     found_entities_en = search_wikidata_entities_by_label(search_term_en, lang="en", limit=3)
     if found_entities_en:
         for entity in found_entities_en:
-            print(f"  QID: {entity.get('qid')}, Label: {entity.get('label')}, Description: {entity.get('description')}")
+            logger.info(f"  QID: {entity.get('qid')}, Label: {entity.get('label')}, Description: {entity.get('description')}")
     else:
-        print("  Entities not found.")
+        logger.info("  Entities not found.")
 
-    print("\n--- Тестирование Wikidata Client полностью завершено ---")
+    logger.info("\n--- Тестирование Wikidata Client полностью завершено ---")

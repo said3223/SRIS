@@ -5,6 +5,8 @@ import json
 from datetime import datetime, timezone
 import uuid
 import logging
+
+from logging_config import setup_logging
 from typing import Dict, Any, Optional, Union
 
 # --- Configuration & Setup ---
@@ -17,12 +19,8 @@ except OSError as e:
     # Depending on the application's criticality, you might raise the exception
     # or have a fallback mechanism. For now, we'll just log.
 
-# Setup basic logging. In a larger application, logging would be configured globally.
-# Set a more informative format.
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+# Setup basic logging if not already configured
+setup_logging()
 logger = logging.getLogger(__name__) # Use __name__ for logger hierarchy
 
 # --- Functions ---

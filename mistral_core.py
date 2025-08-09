@@ -2,6 +2,8 @@
 # Универсальный интерфейс для вызова LLM: через transformers или llama-cpp-python (gguf)
 import os
 import logging
+
+from logging_config import setup_logging
 import time # Для измерения времени
 
 # --- Конфигурация ---
@@ -28,9 +30,8 @@ HF_MODEL_NAME: str = "mistralai/Mistral-7B-Instruct-v0.2"
 # Это потребует `pip install bitsandbytes accelerate`
 
 # Настройка логирования
+setup_logging()
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # --- Инициализация модели ---
 llm_instance = None
@@ -147,12 +148,12 @@ if __name__ == '__main__':
 
         logger.info("\n--- Тест режима 'analyze' ---")
         response_analyze = query_mistral(test_prompt_analyze, mode="analyze", max_new_tokens=150)
-        print(f"Ответ 'analyze':\n{response_analyze}\n")
+        logger.info(f"Ответ 'analyze':\n{response_analyze}\n")
 
         logger.info("\n--- Тест режима 'generate' ---")
         response_generate = query_mistral(test_prompt_generate, mode="generate", max_new_tokens=200)
-        print(f"Ответ 'generate':\n{response_generate}\n")
+        logger.info(f"Ответ 'generate':\n{response_generate}\n")
 
         logger.info("\n--- Тест режима 'respond' ---")
         response_respond = query_mistral(test_prompt_respond, mode="respond", max_new_tokens=50)
-        print(f"Ответ 'respond':\n{response_respond}\n")
+        logger.info(f"Ответ 'respond':\n{response_respond}\n")
