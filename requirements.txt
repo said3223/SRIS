@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pydantic
+llama-cpp-python
+transformers
+torch
+llama-index
+requests
