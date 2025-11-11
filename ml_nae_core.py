@@ -67,7 +67,7 @@ class ScenarioObject(TypedDict):
     confidence: float             # Уверенность LLM в этом сценарии/действии (0.0-1.0)
     justification: Optional[str]  # Обоснование от LLM
     language: str                 # Язык, на котором сгенерирован сценарий
-    # Дополнительные поля, например, предсказанные последствдия, риски и т.д.
+    # Дополнительные поля, например, предсказанные последствия, риски и т.д.
     predicted_effects_summary: Optional[str]
     estimated_risk_level: Optional[float] # 0.0-1.0
 
