@@ -6,9 +6,6 @@ from typing import List, Dict, Optional, Any # Добавил Any
 
 # Настройка логгера
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 WIKIDATA_SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
 WIKIDATA_API_ENDPOINT = "https://www.wikidata.org/w/api.php" # Эндпоинт для wbsearchentities
@@ -143,6 +140,8 @@ def format_wikidata_entity_data(qid: str, sparql_results: List[Dict[str, str]]) 
 
 # ===== БЛОК ДЛЯ ТЕСТА =====
 if __name__ == "__main__":
+    from utils import setup_logging
+    setup_logging()
     print("--- Начинаем тест запроса и форматирования данных из Wikidata ---")
 
     # --- Тест 1: Извлечение и форматирование данных для известного QID ---

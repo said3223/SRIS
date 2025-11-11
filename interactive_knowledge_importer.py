@@ -12,20 +12,12 @@ try:
     from llama_index.core import Document
     modules_loaded = True
 except ImportError as e:
-    logging.basicConfig(level=logging.ERROR) # Установим базовый логгер, если другие не сработали
     logging.error(f"Ошибка импорта необходимых модулей: {e}")
     logging.error("Пожалуйста, убедитесь, что wikidata_client.py и semantic_memory_index.py находятся в той же директории или доступны через PYTHONPATH.")
     modules_loaded = False
 
 # Настройка логгера для этого скрипта
 logger = logging.getLogger(__name__)
-if not logger.handlers and modules_loaded: # Настраиваем, только если основные модули загрузились
-    # Используем существующую конфигурацию логирования, если она была установлена другими модулями,
-    # или устанавливаем свою, если это первый запуск.
-    # Для простоты, предполагаем, что logging.basicConfig уже был вызван в одном из импортируемых модулей.
-    # Если нет, можно добавить здесь:
-    # logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    pass
 
 
 def run_interactive_importer():
@@ -151,8 +143,10 @@ def run_interactive_importer():
             logger.warning(f"Не удалось подготовить документы для индексации для QID {selected_qid}.")
 
 if __name__ == "__main__":
-    # Перед запуском этого скрипта, убедись, что LlamaIndex Settings 
-    # (LLM и EmbedModel) корректно инициализируются при импорте 
+    from utils import setup_logging
+    setup_logging()
+    # Перед запуском этого скрипта, убедись, что LlamaIndex Settings
+    # (LLM и EmbedModel) корректно инициализируются при импорте
     # semantic_memory_index.py (что обычно происходит, если они там в глобальной области видимости).
     # Также убедись, что папка для индекса существует или может быть создана.
     run_interactive_importer()
